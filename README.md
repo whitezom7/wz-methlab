@@ -8,6 +8,8 @@ The radial menu option only appears when the player is inside the configured veh
 
 Players have 3 different skill checks to complete to get the final meth item, if they fail the first check they get slight damage, the other two checks can cause the same damage or a configured percentage check to make the RV blow up.
 
+Thanks to aifazi for their [Inventory Items images](https://github.com/aifazi/items-images) 
+
 ### Dependices
 1. ox_inventory
 2. ox_lib
