@@ -15,11 +15,6 @@ Config = {
     ExplosionTimer = 4000, -- Time in milliseconds
     explosion_chance = 0.2, -- 0.2 = 20% chance 
 
-
-
-
-
-
     -- Skill check for when making the meth, feel free to change the difficulty for each task as you see fit, choose from easy, medium, hard
     skillcheck = {
         first_task = {
