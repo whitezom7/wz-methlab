@@ -3,7 +3,7 @@ lib.onCache('vehicle', function(value)
         local modelHash = GetEntityModel(value)
         
         -- Check if the vehicle is the Journey
-        if modelHash == GetHashKey(Config.vehicle_name) then
+        if modelHash == Config.vehicle_name then
             lib.addRadialItem({
                 id = 'cook_meth',
                 icon = 'flask',

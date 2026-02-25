@@ -4,7 +4,7 @@ game 'gta5'
 name "wz-methlab"
 description "Portable meth cooking"
 author "Whitezom"
-version "0.01"
+version "1.0"
 
 shared_scripts {
 	'@ox_lib/init.lua',

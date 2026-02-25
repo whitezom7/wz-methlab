@@ -1,10 +1,9 @@
 lib.callback.register('wz-methlab:server:canPlayerCook', function(source)
     if Helpers.server.hasIngredients(source) then
         Helpers.server.removeIngredients(source)
-        
-        -- 2. Tell the client to start the skill checks
+
         TriggerClientEvent('wz-methlab:client:StartMethProduction', source)
-        
+
         return true
     end
     return false
@@ -18,11 +17,7 @@ RegisterNetEvent('wz-methlab:server:explosion', function(targetCoords)
     local playerPed = GetPlayerPed(src)
     local vehicle = GetVehiclePedIsIn(playerPed, false)
 
-    -- 1. Sync the explosion effect to everyone nearby
-    -- Parameters: x, y, z, explosionType, damageScale, isAudible, isInvisible, cameraShake
     TriggerClientEvent('wz-methlab:client:syncExplosion', src, targetCoords)
-
-    -- 2. Optional: "Brick" the vehicle so it can't be driven
     if vehicle ~= 0 then
         SetVehicleBodyHealth(vehicle, -4000)
     end
@@ -32,7 +27,7 @@ end)
 RegisterNetEvent('wz-methlab:server:cookSuccess', function()
     local src = source
     local itemName = Config.items.final
-    local amount = 1
+    local amount = Config.items.finalAmount
 
     -- 1. Get the vehicle the player is currently in (or was just in)
     local playerPed = GetPlayerPed(src)

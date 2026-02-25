@@ -16,9 +16,9 @@ local function spilledDamage()
     lib.requestAnimDict(animDict)
     TaskPlayAnim(playerPed, animDict, animName, 8.0, -8.0, 4000, 49, 0, false, false, false)
     AnimpostfxPlay('DrugsMichaelAliensFightIn', 4000, false)
-    lib.timer(10000, function (self)
+    SetTimeout(10000, function()
         AnimpostfxStop('DrugsMichaelAliensFightIn')
-    end, false)
+    end)
 end
 
 local function handleCriticalFailure()
@@ -56,7 +56,7 @@ RegisterNetEvent('wz-methlab:client:StartMethProduction', function()
     if not Skillcheck.StartThird() then
         return handleCriticalFailure()
     end
-    Wait(500)
+    Wait(Config.ExplosionTimer)
     -- Final Success Handshake
     TriggerServerEvent('wz-methlab:server:cookSuccess')
 end)

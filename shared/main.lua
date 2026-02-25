@@ -3,8 +3,11 @@ Config = {
         precursor = 'meth_precursor',
         reagent = 'meth_reagent',
         solvent = 'meth_solvent',
-        final = 'meth' -- default ox_inv meth item
+        final = 'meth', -- default ox_inv meth item, can change to meth_baggy or any custom meth item you have
+        finalAmount = 1 -- how much meth the player gets per successful cook
     },
+    -- Gas Mask not implemented yet
+    gasMaskRequired = false, -- if true, player needs to have a gas mask in inventory/on their playerPed to start the cook
 
     vehicle_name = `journey`,
     damageOnSpill = 15, -- does 15 damage when player fails the first skillcheck
