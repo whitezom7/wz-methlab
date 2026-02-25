@@ -1,6 +1,6 @@
 local function spilledDamage()
-    Notify.Spilled()
     local playerPed = cache.ped
+    Notify.Spilled()
 
     ClearPedTasks(playerPed)
 
@@ -29,9 +29,9 @@ local function handleCriticalFailure()
     if math.random() <= Config.explosion_chance then
         Notify.Explosion()
         SetVehicleEngineHealth(vehicle, -4000)
-        lib.timer(Config.ExplosionTimer or 4000, function()
+        SetTimeout(Config.ExplosionTimer or 4000, function()
             TriggerServerEvent('wz-methlab:server:explosion', labCoords)
-        end, true)
+        end)
     else
         spilledDamage()
     end
@@ -40,23 +40,27 @@ end
 
 
 RegisterNetEvent('wz-methlab:client:StartMethProduction', function()
-    -- Task 1: Distillation (Only causes spills)
+    -- Task 1: Distillation
     if not Skillcheck.StartFirst() then
         return spilledDamage()
     end
+    if not lib.callback.await('wz-methlab:server:validateStep', false, 1) then return end
     Wait(500)
 
-    -- Task 2: Neutralization (Can explode)
+    -- Task 2: Neutralization
     if not Skillcheck.StartSecond() then
         return handleCriticalFailure()
     end
+    if not lib.callback.await('wz-methlab:server:validateStep', false, 2) then return end
     Wait(500)
 
-    -- Task 3: Crystallization (Can explode)
+    -- Task 3: Crystallization
     if not Skillcheck.StartThird() then
         return handleCriticalFailure()
     end
-    Wait(Config.ExplosionTimer)
+    if not lib.callback.await('wz-methlab:server:validateStep', false, 3) then return end
+    Wait(500)
+
     -- Final Success Handshake
     TriggerServerEvent('wz-methlab:server:cookSuccess')
 end)

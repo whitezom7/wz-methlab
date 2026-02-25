@@ -1,6 +1,10 @@
+local cookProgress = {}
+
 lib.callback.register('wz-methlab:server:canPlayerCook', function(source)
+    local src = source
     if Helpers.server.hasIngredients(source) then
         Helpers.server.removeIngredients(source)
+        cookProgress[src] = nil
 
         TriggerClientEvent('wz-methlab:client:StartMethProduction', source)
 
@@ -9,6 +13,20 @@ lib.callback.register('wz-methlab:server:canPlayerCook', function(source)
     return false
 end)
 
+lib.callback.register('wz-methlab:server:validateStep', function(source, step)
+    if not cookProgress[source] then cookProgress[source] = 0 end
+
+    if step == cookProgress[source] + 1 then
+        cookProgress[source] = step
+        return true
+    end
+
+    print(string.format("%s attempted to skip to step %s", GetPlayerName(source), step))
+    return false
+end)
+
+
+
 
 
 
@@ -16,6 +34,7 @@ RegisterNetEvent('wz-methlab:server:explosion', function(targetCoords)
     local src = source
     local playerPed = GetPlayerPed(src)
     local vehicle = GetVehiclePedIsIn(playerPed, false)
+    cookProgress[src] = nil
 
     TriggerClientEvent('wz-methlab:client:syncExplosion', src, targetCoords)
     if vehicle ~= 0 then
@@ -37,6 +56,11 @@ RegisterNetEvent('wz-methlab:server:cookSuccess', function()
     local rvHash = Config.vehicle_name
 
     if lastVeh ~= 0 and GetEntityModel(lastVeh) == rvHash then
+        if cookProgress[src] ~= 3 then
+            print(string.format("Warning: Player %s triggered cookSuccess without completing all steps!", GetPlayerName(src)))
+            return
+        end
+        cookProgress[src] = nil
         -- 3. Inventory Logic
         if exports.ox_inventory:CanCarryItem(src, itemName, amount) then
             print(string.format("Attempting to add %s to player %s", itemName, GetPlayerName(src)))
