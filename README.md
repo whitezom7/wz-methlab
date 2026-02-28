@@ -21,7 +21,14 @@ Thanks to aifazi for their [Inventory Items images](https://github.com/aifazi/it
 4. Add the inventory items data to ox_inventory/data/items.lua
 5. Start your server
 
+---
 
+## ☕ Support My Work
+If you find this script useful and would like to support my development journey, feel free to buy me a coffee!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/whitezom)
+
+---
 ```lua
     ['meth_precursor'] = {
         label = 'Chemical Precursor',
